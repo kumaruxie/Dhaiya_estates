@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { MotionConfig } from 'motion/react';
-import { SmoothScrollProvider } from './components/MotionPrimitives';
+import {
+  ScrollProgressBar,
+  SmoothScrollProvider,
+} from './components/MotionPrimitives';
 import { Header } from './components/Header';
 import { HeroSection } from './components/HeroSection';
 import { AboutSection } from './components/AboutSection';
@@ -22,6 +25,7 @@ export function App() {
     <MotionConfig reducedMotion="user">
       <SmoothScrollProvider>
         <div className="min-h-screen flex flex-col bg-[#f5f1e8] text-[#173a2d]">
+          <ScrollProgressBar />
           <Header />
           <main className="flex-1">
             <HeroSection />

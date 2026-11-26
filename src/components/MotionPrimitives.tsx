@@ -7,9 +7,21 @@ import {
   type ReactNode,
 } from 'react';
 import Lenis from 'lenis';
-import { motion, type HTMLMotionProps } from 'motion/react';
+import {
+  motion,
+  useScroll,
+  useSpring,
+  type HTMLMotionProps,
+} from 'motion/react';
 
 export const EDITORIAL_EASE = [0.22, 1, 0.36, 1] as const;
+
+export const SPRING_SCROLL = {
+  stiffness: 90,
+  damping: 26,
+  mass: 0.85,
+  restDelta: 0.0005,
+} as const;
 
 export const VIEWPORT_CONFIG = {
   once: true,
@@ -44,10 +56,11 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
     }
 
     const lenis = new Lenis({
-      duration: 1.25,
+      duration: 1.3,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      touchMultiplier: 1.5,
+      wheelMultiplier: 0.92,
+      touchMultiplier: 1.4,
     });
 
     lenisRef.current = lenis;
@@ -72,7 +85,7 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
 
     if (lenisRef.current) {
       lenisRef.current.scrollTo(el as HTMLElement, {
-        duration: 1.35,
+        duration: 1.4,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       });
     } else {
@@ -87,6 +100,23 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
   );
 }
 
+export function ScrollProgressBar() {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 120,
+    damping: 30,
+    restDelta: 0.001,
+  });
+
+  return (
+    <motion.div
+      aria-hidden="true"
+      style={{ scaleX }}
+      className="fixed top-0 left-0 right-0 h-[2px] bg-[#d4b065] origin-left z-50 pointer-events-none"
+    />
+  );
+}
+
 interface RevealProps extends HTMLMotionProps<'div'> {
   children: ReactNode;
   delay?: number;
@@ -97,8 +127,8 @@ interface RevealProps extends HTMLMotionProps<'div'> {
 export function Reveal({
   children,
   delay = 0,
-  y = 26,
-  duration = 0.8,
+  y = 28,
+  duration = 0.85,
   className = '',
   ...props
 }: RevealProps) {
@@ -123,7 +153,7 @@ export function Reveal({
 export function MaskedLine({
   children,
   delay = 0,
-  duration = 0.9,
+  duration = 0.95,
   immediate = false,
   className = '',
 }: {
@@ -136,7 +166,7 @@ export function MaskedLine({
   return (
     <span className={`block overflow-hidden ${className}`}>
       <motion.span
-        className="block"
+        className="block will-change-transform"
         initial={{ y: '108%', opacity: 0 }}
         {...(immediate
           ? { animate: { y: '0%', opacity: 1 } }
@@ -174,9 +204,31 @@ export function HairlineRule({
             whileInView: { scaleX: 1 },
             viewport: VIEWPORT_CONFIG,
           })}
-      transition={{ duration: 0.95, delay, ease: EDITORIAL_EASE }}
+      transition={{ duration: 1, delay, ease: EDITORIAL_EASE }}
       className={`origin-left ${className}`}
     />
+  );
+}
+
+export function ClipRevealFrame({
+  children,
+  delay = 0,
+  className = '',
+}: {
+  children: ReactNode;
+  delay?: number;
+  className?: string;
+}) {
+  return (
+    <motion.div
+      initial={{ clipPath: 'inset(10% 0% 0% 0%)', opacity: 0 }}
+      whileInView={{ clipPath: 'inset(0% 0% 0% 0%)', opacity: 1 }}
+      viewport={VIEWPORT_CONFIG}
+      transition={{ duration: 1.05, delay, ease: EDITORIAL_EASE }}
+      className={className}
+    >
+      {children}
+    </motion.div>
   );
 }
 

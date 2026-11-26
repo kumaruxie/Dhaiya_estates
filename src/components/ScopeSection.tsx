@@ -1,21 +1,31 @@
 import { motion } from 'motion/react';
 import { SCOPE_ITEMS } from '../data/siteData';
-import { EDITORIAL_EASE, Reveal, VIEWPORT_CONFIG } from './MotionPrimitives';
+import {
+  EDITORIAL_EASE,
+  MaskedLine,
+  Reveal,
+  VIEWPORT_CONFIG,
+} from './MotionPrimitives';
 
 export function ScopeSection() {
   return (
-    <section className="bg-[#f5f1e8] py-24 md:py-32 border-b border-[#173a2d]/10">
-      <div className="max-w-[1320px] mx-auto px-6 md:px-12">
+    <section
+      aria-labelledby="scope-heading"
+      className="bg-[#f5f1e8] min-h-[100svh] flex flex-col justify-center py-24 md:py-32 border-b border-[#173a2d]/10"
+    >
+      <div className="max-w-[1320px] w-full mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-start">
           <div className="lg:col-span-4">
-            <Reveal y={20}>
+            <Reveal y={16}>
               <p className="section-label">OUR SCOPE</p>
-              <h2 className="font-serif font-normal text-[38px] sm:text-[44px] md:text-[48px] leading-[1.12] text-[#173a2d] mt-4">
-                From raw land
-                <br />
-                to real value.
-              </h2>
             </Reveal>
+            <h2
+              id="scope-heading"
+              className="font-serif font-normal text-[38px] sm:text-[46px] md:text-[52px] leading-[1.1] text-[#173a2d] mt-4"
+            >
+              <MaskedLine delay={0.06}>From raw land</MaskedLine>
+              <MaskedLine delay={0.16}>to real value.</MaskedLine>
+            </h2>
           </div>
 
           <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2">
@@ -30,15 +40,15 @@ export function ScopeSection() {
               return (
                 <motion.div
                   key={item}
-                  initial={{ opacity: 0, y: 18 }}
+                  initial={{ opacity: 0, y: 22 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={VIEWPORT_CONFIG}
                   transition={{
-                    duration: 0.7,
-                    delay: idx * 0.08,
+                    duration: 0.75,
+                    delay: idx * 0.09,
                     ease: EDITORIAL_EASE,
                   }}
-                  className={`py-8 sm:py-9 sm:px-8 first:sm:pl-0 nth-[3]:sm:pl-0 flex items-start gap-4 group ${borderClasses}`}
+                  className={`py-9 sm:py-10 sm:px-8 first:sm:pl-0 nth-[3]:sm:pl-0 flex items-start gap-4 group transition-colors duration-300 hover:bg-[#173a2d]/[0.025] ${borderClasses}`}
                 >
                   <svg
                     viewBox="0 0 18 18"
@@ -46,7 +56,7 @@ export function ScopeSection() {
                     stroke="currentColor"
                     strokeWidth={1.6}
                     aria-hidden="true"
-                    className="w-4 h-4 text-[#937b50] shrink-0 mt-1"
+                    className="w-4 h-4 text-[#937b50] shrink-0 mt-1 transition-transform duration-300 ease-out group-hover:scale-115 group-hover:text-[#173a2d]"
                   >
                     <motion.path
                       d="M3.5 9.5l3.5 3.5L14.5 5"
@@ -56,13 +66,13 @@ export function ScopeSection() {
                       whileInView={{ pathLength: 1 }}
                       viewport={VIEWPORT_CONFIG}
                       transition={{
-                        duration: 0.65,
-                        delay: 0.15 + idx * 0.08,
+                        duration: 0.7,
+                        delay: 0.18 + idx * 0.08,
                         ease: EDITORIAL_EASE,
                       }}
                     />
                   </svg>
-                  <p className="text-[15px] font-medium leading-[1.58] text-[#173a2d] transition-transform duration-300 ease-out group-hover:translate-x-1">
+                  <p className="text-[15.5px] font-medium leading-[1.6] text-[#173a2d] transition-transform duration-300 ease-out group-hover:translate-x-1.5">
                     {item}
                   </p>
                 </motion.div>

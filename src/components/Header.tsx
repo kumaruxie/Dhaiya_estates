@@ -1,12 +1,26 @@
 import { useState } from 'react';
-import { AnimatePresence, motion } from 'motion/react';
+import {
+  AnimatePresence,
+  motion,
+  useMotionValueEvent,
+  useScroll,
+} from 'motion/react';
 import { NAV_ITEMS } from '../data/siteData';
 import { BrandLogo } from './BrandLogo';
 import { ArrowIcon, EDITORIAL_EASE, useSmoothScroll } from './MotionPrimitives';
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const { scrollY } = useScroll();
   const { scrollToSection } = useSmoothScroll();
+
+  useMotionValueEvent(scrollY, 'change', (latest) => {
+    const next = latest > 72;
+    if (next !== scrolled) {
+      setScrolled(next);
+    }
+  });
 
   const handleNavClick = (href: string) => {
     setMobileMenuOpen(false);
@@ -19,9 +33,17 @@ export function Header() {
       initial={{ opacity: 0, y: -12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: EDITORIAL_EASE }}
-      className="absolute top-0 inset-x-0 z-30 border-b border-white/15"
+      className={`fixed top-0 inset-x-0 z-40 transition-all duration-500 ease-out border-b ${
+        scrolled
+          ? 'bg-[#173a2d]/90 backdrop-blur-md border-white/12 shadow-[0_10px_30px_-15px_rgba(0,0,0,0.35)]'
+          : 'bg-transparent border-white/15'
+      }`}
     >
-      <div className="max-w-[1320px] mx-auto px-6 md:px-12 h-20 flex items-center justify-between">
+      <div
+        className={`max-w-[1320px] mx-auto px-6 md:px-12 flex items-center justify-between transition-all duration-500 ease-out ${
+          scrolled ? 'h-[68px]' : 'h-20'
+        }`}
+      >
         <BrandLogo />
 
         <nav
@@ -44,8 +66,11 @@ export function Header() {
           ))}
         </nav>
 
-        <a
+        <motion.a
           href="#contact"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          transition={{ duration: 0.2, ease: EDITORIAL_EASE }}
           onClick={(e) => {
             e.preventDefault();
             handleNavClick('#contact');
@@ -54,7 +79,7 @@ export function Header() {
         >
           <span>Enquire now</span>
           <ArrowIcon className="w-3.5 h-3.5 transition-transform duration-300 ease-out group-hover:translate-x-1" />
-        </a>
+        </motion.a>
 
         <button
           type="button"
@@ -86,18 +111,18 @@ export function Header() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.38, ease: EDITORIAL_EASE }}
-            className="md:hidden overflow-hidden bg-[#173a2d] border-t border-white/15"
+            transition={{ duration: 0.4, ease: EDITORIAL_EASE }}
+            className="md:hidden overflow-hidden bg-[#173a2d]/98 backdrop-blur-md border-t border-white/15"
           >
             <nav aria-label="Mobile navigation" className="px-6 py-2">
               {NAV_ITEMS.map((item, idx) => (
                 <motion.a
                   key={item.href}
                   href={item.href}
-                  initial={{ opacity: 0, x: -12 }}
+                  initial={{ opacity: 0, x: -14 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{
-                    duration: 0.3,
+                    duration: 0.35,
                     delay: idx * 0.045,
                     ease: EDITORIAL_EASE,
                   }}
