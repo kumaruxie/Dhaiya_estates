@@ -71,7 +71,7 @@ export function HeroSection() {
       {/* Editorial Hero Content */}
       <motion.div
         style={{ y: contentY, opacity: contentOpacity }}
-        className="relative z-10 w-full max-w-[1320px] mx-auto px-6 md:px-12 pt-36 pb-16 sm:pb-20 md:pb-24 will-change-transform"
+        className="relative z-10 w-full max-w-[1320px] mx-auto px-6 md:px-12 pt-36 pb-28 sm:pb-32 md:pb-36 will-change-transform"
       >
         <div className="max-w-[780px]">
           <div className="flex items-center gap-4 mb-6">
