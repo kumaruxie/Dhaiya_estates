@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Libre Caslon Display", ui-serif, Georgia, serif;
+  --color-forest: #173a2d;
+  --color-forest-hover: #224a3b;
+  --color-cream: #f5f1e8;
+  --color-sand: #ebe4d6;
+  --color-gold: #d4b065;
+  --color-bronze: #7b6948;
+  --color-bronze-light: #937b50;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background-color: #f5f1e8;
+  }
+
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  body {
+    color: #173a2d;
+    min-width: 320px;
+    font-family: var(--font-sans);
+    background: #f5f1e8;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  button,
+  a,
+  input,
+  select {
+    outline-offset: 4px;
+  }
+
+  :focus-visible {
+    outline: 2px solid #d4b065;
+  }
+
+  ::selection {
+    color: #173a2d;
+    background: #d4b065;
+  }
+}
+
+@layer components {
+  .section-label {
+    color: #7b6948;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+}
