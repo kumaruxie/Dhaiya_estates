@@ -86,6 +86,10 @@ export const ABOUT_DATA = {
   eyebrow: 'THE DAHIYA PERSPECTIVE',
   headingLead: 'Land is more than an asset. ',
   headingMuted: 'It is where every legacy begins.',
+  image: './images/neemrana-hills.jpg',
+  imageAlt:
+    'Historic stone fort palace nestled in the green Aravalli hills of Alwar district, Rajasthan',
+  imageCaption: 'ALWAR DISTRICT · ARAVALLI HERITAGE BELT',
   paragraphs: [
     'Dahiya Estates is a real estate enterprise focused on high-conviction land across Alwar, Sariska, Khairthal and Tatarpur—carefully considered, responsibly developed and transparently delivered.',
     'As the customer-facing identity of Dahiya Agro Estates Private Limited, we combine on-ground regional knowledge with clear title verification for agricultural parcels, private farmhouses and plotted estates.',
