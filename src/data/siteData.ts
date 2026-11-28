@@ -8,6 +8,8 @@ export interface ExpertiseItem {
   title: string;
   description: string;
   icon: 'agricultural' | 'farmhouse' | 'plots' | 'development';
+  image: string;
+  imageAlt: string;
 }
 
 export interface CorridorItem {
@@ -97,6 +99,8 @@ export const EXPERTISE_ITEMS: ExpertiseItem[] = [
     description:
       'Fertile plains and Aravalli-foothill parcels across Khairthal, Tatarpur and Alwar with verified titles and clear access.',
     icon: 'agricultural',
+    image: './images/rajasthan-farmland.jpg',
+    imageAlt: 'Agricultural mustard and green fields beneath the Aravalli hills in Alwar district',
   },
   {
     number: '02',
@@ -104,6 +108,8 @@ export const EXPERTISE_ITEMS: ExpertiseItem[] = [
     description:
       'Private countryside retreats near Sariska Tiger Reserve and Dhadikar Fort designed around nature, stone and silence.',
     icon: 'farmhouse',
+    image: './images/sariska-kankwari.jpg',
+    imageAlt: 'Historic fort and forested Aravalli valley landscape near Sariska, Alwar',
   },
   {
     number: '03',
@@ -111,6 +117,8 @@ export const EXPERTISE_ITEMS: ExpertiseItem[] = [
     description:
       'Well-demarcated residential plots connected to Alwar’s expanding highways and growth corridors for generations to come.',
     icon: 'plots',
+    image: './images/aravalli-alwar.jpg',
+    imageAlt: 'Stone-walled hillside road and Aravalli terrain in Alwar, Rajasthan',
   },
   {
     number: '04',
@@ -118,6 +126,8 @@ export const EXPERTISE_ITEMS: ExpertiseItem[] = [
     description:
       'From boundary walls, levelling and internal stone roads to enabling utilities, we shape raw land with lasting structure.',
     icon: 'development',
+    image: './images/bala-quila-1.jpg',
+    imageAlt: 'Sandstone courtyard and stone development craftsmanship at Bala Quila, Alwar',
   },
 ];
 

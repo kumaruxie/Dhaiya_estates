@@ -24,8 +24,8 @@ function ScrubWord({
   range: [number, number];
   muted?: boolean;
 }) {
-  const opacity = useTransform(progress, range, [0.22, 1]);
-  const y = useTransform(progress, range, [6, 0]);
+  const opacity = useTransform(progress, range, [0.45, 1]);
+  const y = useTransform(progress, range, [5, 0]);
 
   return (
     <motion.span
@@ -44,7 +44,7 @@ export function AboutSection() {
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ['start 0.88', 'center 0.48'],
+    offset: ['start 0.95', 'start 0.42'],
   });
 
   const smoothProgress = useSpring(scrollYProgress, SPRING_SCROLL);
@@ -53,14 +53,14 @@ export function AboutSection() {
   const mutedWords = ABOUT_DATA.headingMuted.trim().split(' ');
   const totalWords = leadWords.length + mutedWords.length;
 
-  const leftColY = useTransform(smoothProgress, [0, 1], [18, -10]);
+  const leftColY = useTransform(smoothProgress, [0, 1], [14, 0]);
 
   return (
     <section
       id="about"
       aria-labelledby="about-heading"
       ref={sectionRef}
-      className="bg-[#f5f1e8] min-h-[100svh] flex flex-col justify-center py-24 md:py-32 overflow-hidden"
+      className="bg-[#f5f1e8] min-h-[100svh] flex flex-col justify-center pt-28 pb-24 md:py-32 overflow-hidden"
     >
       <div className="max-w-[1320px] w-full mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
         <motion.div
@@ -82,27 +82,27 @@ export function AboutSection() {
             className="font-serif font-normal text-[34px] sm:text-[44px] md:text-[52px] leading-[1.13] tracking-[-0.005em] max-w-[740px]"
           >
             {leadWords.map((word, idx) => {
-              const start = idx / totalWords;
-              const end = (idx + 1) / totalWords;
+              const start = (idx / totalWords) * 0.75;
+              const end = Math.min(1, ((idx + 1) / totalWords) * 0.75 + 0.15);
               return (
                 <ScrubWord
                   key={`lead-${idx}`}
                   word={word}
                   progress={smoothProgress}
-                  range={[start * 0.85, Math.min(1, end * 0.85 + 0.12)]}
+                  range={[start, end]}
                 />
               );
             })}
             {mutedWords.map((word, idx) => {
               const globalIdx = leadWords.length + idx;
-              const start = globalIdx / totalWords;
-              const end = (globalIdx + 1) / totalWords;
+              const start = (globalIdx / totalWords) * 0.75;
+              const end = Math.min(1, ((globalIdx + 1) / totalWords) * 0.75 + 0.15);
               return (
                 <ScrubWord
                   key={`muted-${idx}`}
                   word={word}
                   progress={smoothProgress}
-                  range={[start * 0.85, Math.min(1, end * 0.85 + 0.12)]}
+                  range={[start, end]}
                   muted
                 />
               );

@@ -49,7 +49,7 @@ export function TeamSection() {
       id="team"
       aria-labelledby="team-heading"
       ref={sectionRef}
-      className="bg-[#ebe4d6] min-h-[100svh] flex flex-col justify-center py-24 md:py-32 overflow-hidden"
+      className="bg-[#ebe4d6] min-h-[100svh] flex flex-col justify-center pt-28 pb-24 md:py-32 overflow-hidden"
     >
       <div className="max-w-[1320px] w-full mx-auto px-6 md:px-12">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-14 md:mb-16">
@@ -199,17 +199,17 @@ export function TeamSection() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-12">
-                <div className="md:col-span-5 bg-[#ebe4d6]">
-                  <div className="aspect-[4/4.3] md:h-full overflow-hidden">
-                    <img
-                      src={activeMember.image}
-                      alt={activeMember.alt}
-                      className="w-full h-full object-cover object-top"
-                    />
-                  </div>
+                {/* Strictly clipped portrait column */}
+                <div className="md:col-span-5 relative min-w-0 h-[320px] sm:h-[380px] md:h-auto md:min-h-[520px] overflow-hidden bg-[#ebe4d6]">
+                  <img
+                    src={activeMember.image}
+                    alt={activeMember.alt}
+                    className="w-full h-full md:absolute md:inset-0 object-cover object-top"
+                  />
                 </div>
 
-                <div className="md:col-span-7 p-7 sm:p-10 md:p-11 flex flex-col justify-between">
+                {/* Story Content Column */}
+                <div className="md:col-span-7 min-w-0 p-7 sm:p-10 md:p-11 flex flex-col justify-between bg-[#f5f1e8]">
                   <div>
                     <p className="text-[11px] font-bold tracking-[0.24em] uppercase text-[#7b6948]">
                       {activeMember.role} · {activeMember.subtitle}
