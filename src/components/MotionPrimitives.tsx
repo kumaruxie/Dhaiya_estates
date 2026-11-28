@@ -25,8 +25,8 @@ export const SPRING_SCROLL = {
 
 export const VIEWPORT_CONFIG = {
   once: true,
-  amount: 0.16,
-} as const;
+  amount: 'some' as const,
+};
 
 interface SmoothScrollContextValue {
   scrollToSection: (target: string) => void;
@@ -127,7 +127,7 @@ interface RevealProps extends HTMLMotionProps<'div'> {
 export function Reveal({
   children,
   delay = 0,
-  y = 28,
+  y = 24,
   duration = 0.85,
   className = '',
   ...props
@@ -150,10 +150,14 @@ export function Reveal({
   );
 }
 
+/**
+ * Triggers IntersectionObserver on the stationary outer wrapper so the
+ * translated inner span never sits outside the viewport box and gets stuck hidden.
+ */
 export function MaskedLine({
   children,
   delay = 0,
-  duration = 0.95,
+  duration = 0.9,
   immediate = false,
   className = '',
 }: {
@@ -164,25 +168,34 @@ export function MaskedLine({
   className?: string;
 }) {
   return (
-    <span className={`block overflow-hidden ${className}`}>
+    <motion.span
+      className={`block overflow-hidden ${className}`}
+      initial="hidden"
+      {...(immediate
+        ? { animate: 'visible' }
+        : {
+            whileInView: 'visible',
+            viewport: VIEWPORT_CONFIG,
+          })}
+    >
       <motion.span
         className="block will-change-transform"
-        initial={{ y: '108%', opacity: 0 }}
-        {...(immediate
-          ? { animate: { y: '0%', opacity: 1 } }
-          : {
-              whileInView: { y: '0%', opacity: 1 },
-              viewport: VIEWPORT_CONFIG,
-            })}
-        transition={{
-          duration,
-          delay,
-          ease: EDITORIAL_EASE,
+        variants={{
+          hidden: { y: '105%', opacity: 0 },
+          visible: {
+            y: '0%',
+            opacity: 1,
+            transition: {
+              duration,
+              delay,
+              ease: EDITORIAL_EASE,
+            },
+          },
         }}
       >
         {children}
       </motion.span>
-    </span>
+    </motion.span>
   );
 }
 
@@ -221,10 +234,10 @@ export function ClipRevealFrame({
 }) {
   return (
     <motion.div
-      initial={{ clipPath: 'inset(10% 0% 0% 0%)', opacity: 0 }}
+      initial={{ clipPath: 'inset(8% 0% 0% 0%)', opacity: 0 }}
       whileInView={{ clipPath: 'inset(0% 0% 0% 0%)', opacity: 1 }}
       viewport={VIEWPORT_CONFIG}
-      transition={{ duration: 1.05, delay, ease: EDITORIAL_EASE }}
+      transition={{ duration: 1, delay, ease: EDITORIAL_EASE }}
       className={className}
     >
       {children}

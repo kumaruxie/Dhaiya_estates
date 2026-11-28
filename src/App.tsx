@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { MotionConfig } from 'motion/react';
+import type { PolicyKey } from './data/siteData';
 import {
   ScrollProgressBar,
   SmoothScrollProvider,
@@ -15,11 +16,13 @@ import { ScopeSection } from './components/ScopeSection';
 import { TeamSection } from './components/TeamSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
+import { PolicyModal } from './components/PolicyModal';
 
 export function App() {
   const [selectedInterest, setSelectedInterest] = useState<string | undefined>(
     undefined,
   );
+  const [activePolicy, setActivePolicy] = useState<PolicyKey | null>(null);
 
   return (
     <MotionConfig reducedMotion="user">
@@ -36,9 +39,16 @@ export function App() {
             <HeritageSection />
             <ScopeSection />
             <TeamSection />
-            <ContactSection selectedInterest={selectedInterest} />
+            <ContactSection
+              selectedInterest={selectedInterest}
+              onOpenPolicy={setActivePolicy}
+            />
           </main>
-          <Footer />
+          <Footer onOpenPolicy={setActivePolicy} />
+          <PolicyModal
+            activePolicy={activePolicy}
+            onClose={() => setActivePolicy(null)}
+          />
         </div>
       </SmoothScrollProvider>
     </MotionConfig>

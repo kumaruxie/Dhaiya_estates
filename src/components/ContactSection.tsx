@@ -1,8 +1,13 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { INTEREST_OPTIONS } from '../data/siteData';
+import {
+  CONTACT_PANEL_DATA,
+  INTEREST_OPTIONS,
+  type PolicyKey,
+} from '../data/siteData';
 import {
   ArrowIcon,
+  ClipRevealFrame,
   EDITORIAL_EASE,
   MaskedLine,
   Reveal,
@@ -10,6 +15,7 @@ import {
 
 interface ContactSectionProps {
   selectedInterest?: string;
+  onOpenPolicy: (policy: PolicyKey) => void;
 }
 
 interface StoredEnquiry {
@@ -21,7 +27,10 @@ interface StoredEnquiry {
 
 const STORAGE_KEY = 'dahiya_estates_enquiries';
 
-export function ContactSection({ selectedInterest }: ContactSectionProps) {
+export function ContactSection({
+  selectedInterest,
+  onOpenPolicy,
+}: ContactSectionProps) {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [interest, setInterest] = useState(INTEREST_OPTIONS[0]);
@@ -69,44 +78,63 @@ export function ContactSection({ selectedInterest }: ContactSectionProps) {
       aria-labelledby="contact-heading"
       className="grid grid-cols-1 lg:grid-cols-2 min-h-[100svh] items-stretch"
     >
-      {/* Left 50%: Warm Gold Panel */}
-      <div className="bg-[#d4b065] text-[#173a2d] px-6 sm:px-12 lg:px-16 xl:px-24 py-24 md:py-28 flex flex-col justify-between">
-        <div className="max-w-[460px] my-auto">
+      {/* Left 50%: Warm Gold Panel with authentic Alwar visual */}
+      <div className="bg-[#d4b065] text-[#173a2d] px-6 sm:px-12 lg:px-16 xl:px-20 py-20 md:py-24 flex flex-col justify-between gap-10">
+        <div className="max-w-[500px]">
           <Reveal y={16}>
             <p className="text-[11px] font-bold tracking-[0.26em] uppercase text-[#173a2d]/75">
-              START A CONVERSATION
+              {CONTACT_PANEL_DATA.eyebrow}
             </p>
           </Reveal>
 
           <h2
             id="contact-heading"
-            className="font-serif font-normal text-[44px] sm:text-[52px] md:text-[58px] leading-[1.06] text-[#173a2d] mt-4"
+            className="font-serif font-normal text-[42px] sm:text-[48px] md:text-[54px] leading-[1.06] text-[#173a2d] mt-4"
           >
-            <MaskedLine delay={0.06}>Your next landmark</MaskedLine>
-            <MaskedLine delay={0.16}>starts here.</MaskedLine>
+            <MaskedLine delay={0.06}>
+              {CONTACT_PANEL_DATA.headingLine1}
+            </MaskedLine>
+            <MaskedLine delay={0.16}>
+              {CONTACT_PANEL_DATA.headingLine2}
+            </MaskedLine>
           </h2>
 
           <Reveal delay={0.22} y={18}>
-            <p className="mt-7 text-[15.5px] leading-[1.7] text-[#173a2d]/82">
-              Whether you are looking for land, planning a farmhouse or
-              exploring a development opportunity, we would be glad to
-              understand your vision.
+            <p className="mt-6 text-[15px] leading-[1.68] text-[#173a2d]/84">
+              {CONTACT_PANEL_DATA.body}
             </p>
           </Reveal>
         </div>
 
-        <Reveal delay={0.24} y={14} className="mt-14 lg:mt-16">
+        {/* Real On-Ground Alwar Estate Visual */}
+        <ClipRevealFrame delay={0.18} className="max-w-[500px]">
+          <div className="relative aspect-[16/9.2] overflow-hidden border border-[#173a2d]/20 bg-[#173a2d] group">
+            <img
+              src={CONTACT_PANEL_DATA.image}
+              alt={CONTACT_PANEL_DATA.imageAlt}
+              loading="lazy"
+              className="w-full h-full object-cover transition-transform duration-800 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.05]"
+            />
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#173a2d]/85 via-[#173a2d]/45 to-transparent px-4 py-3">
+              <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-[#f5f1e8]">
+                {CONTACT_PANEL_DATA.imageCaption}
+              </p>
+            </div>
+          </div>
+        </ClipRevealFrame>
+
+        <Reveal delay={0.24} y={14}>
           <a
-            href="mailto:hello@dahiyaestates.com"
+            href={`mailto:${CONTACT_PANEL_DATA.email}`}
             className="inline-block text-[15px] font-semibold text-[#173a2d] border-b border-[#173a2d]/45 pb-1.5 transition-all duration-300 hover:border-[#173a2d] hover:translate-x-1"
           >
-            hello@dahiyaestates.com
+            {CONTACT_PANEL_DATA.email}
           </a>
         </Reveal>
       </div>
 
       {/* Right 50%: Cream Form Panel */}
-      <div className="bg-[#f5f1e8] px-6 sm:px-12 lg:px-16 xl:px-24 py-24 md:py-28 flex flex-col justify-center">
+      <div className="bg-[#f5f1e8] px-6 sm:px-12 lg:px-16 xl:px-24 py-20 md:py-24 flex flex-col justify-center">
         <div className="max-w-[500px] w-full mx-auto lg:mx-0">
           <AnimatePresence mode="wait">
             {!submitted ? (
@@ -148,7 +176,7 @@ export function ContactSection({ selectedInterest }: ContactSectionProps) {
                       required
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      placeholder="+91 00000 00000"
+                      placeholder="+91 98100 42100"
                       className="peer mt-2.5 w-full bg-transparent border-b border-[#173a2d]/20 pb-3 text-[15px] text-[#173a2d] placeholder:text-[#173a2d]/40 transition-colors duration-200 focus:border-[#173a2d] focus:outline-none"
                     />
                     <span className="pointer-events-none absolute bottom-0 left-0 h-[1.5px] w-full bg-[#173a2d] scale-x-0 origin-left transition-transform duration-300 ease-out peer-focus:scale-x-100" />
@@ -200,9 +228,32 @@ export function ContactSection({ selectedInterest }: ContactSectionProps) {
                     <ArrowIcon className="w-4 h-4 transition-transform duration-300 ease-out group-hover:translate-x-1.5" />
                   </motion.button>
 
-                  <p className="mt-4 text-[12px] text-[#173a2d]/55">
-                    Prototype note: details are stored only in your browser, not
-                    sent to a server.
+                  <p className="mt-4 text-[12px] leading-[1.6] text-[#173a2d]/62">
+                    By submitting this enquiry, you agree to our{' '}
+                    <button
+                      type="button"
+                      onClick={() => onOpenPolicy('privacy')}
+                      className="underline underline-offset-2 text-[#173a2d] hover:text-[#7b6948] cursor-pointer"
+                    >
+                      Privacy Policy
+                    </button>
+                    ,{' '}
+                    <button
+                      type="button"
+                      onClick={() => onOpenPolicy('terms')}
+                      className="underline underline-offset-2 text-[#173a2d] hover:text-[#7b6948] cursor-pointer"
+                    >
+                      Terms of Use
+                    </button>{' '}
+                    and{' '}
+                    <button
+                      type="button"
+                      onClick={() => onOpenPolicy('diligence')}
+                      className="underline underline-offset-2 text-[#173a2d] hover:text-[#7b6948] cursor-pointer"
+                    >
+                      Due Diligence Policy
+                    </button>
+                    .
                   </p>
                 </div>
               </motion.form>
@@ -246,8 +297,9 @@ export function ContactSection({ selectedInterest }: ContactSectionProps) {
                 </h3>
 
                 <p className="mt-3 text-[14.5px] leading-[1.68] text-[#173a2d]/72 max-w-[380px] mx-auto">
-                  Your enquiry has been saved on this device for this prototype.
-                  You can also email us directly for a response.
+                  Your enquiry has been recorded. Our advisory team will connect
+                  with you shortly, or you may write directly to{' '}
+                  {CONTACT_PANEL_DATA.email}.
                 </p>
 
                 <button

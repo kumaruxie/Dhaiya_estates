@@ -19,8 +19,8 @@ export function HeritageSection() {
 
   const smoothProgress = useSpring(scrollYProgress, SPRING_SCROLL);
   const topPhotoY = useTransform(smoothProgress, [0, 1], [18, -18]);
-  const bottomLeftY = useTransform(smoothProgress, [0, 1], [32, -24]);
-  const bottomRightY = useTransform(smoothProgress, [0, 1], [44, -30]);
+  const bottomLeftY = useTransform(smoothProgress, [0, 1], [30, -22]);
+  const bottomRightY = useTransform(smoothProgress, [0, 1], [40, -28]);
   const secondaryY = [bottomLeftY, bottomRightY];
 
   return (
@@ -58,13 +58,16 @@ export function HeritageSection() {
             className="col-span-2 will-change-transform"
           >
             <ClipRevealFrame>
-              <div className="aspect-[16/8.6] overflow-hidden bg-[#102b21] group">
+              <div className="relative aspect-[16/8.6] overflow-hidden bg-[#102b21] group">
                 <img
                   src={featured.src}
                   alt={featured.alt}
                   loading="lazy"
                   className="w-full h-full object-cover transition-transform duration-800 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform group-hover:scale-[1.06]"
                 />
+                <span className="absolute bottom-3 left-3 bg-[#173a2d]/85 backdrop-blur-sm border border-white/15 px-3 py-1 text-[10px] font-semibold tracking-[0.18em] uppercase text-[#d4b065]">
+                  {featured.caption}
+                </span>
               </div>
             </ClipRevealFrame>
           </motion.div>
@@ -76,13 +79,16 @@ export function HeritageSection() {
               className="will-change-transform"
             >
               <ClipRevealFrame delay={0.1 + idx * 0.1}>
-                <div className="aspect-[16/10] overflow-hidden bg-[#102b21] group">
+                <div className="relative aspect-[16/10] overflow-hidden bg-[#102b21] group">
                   <img
                     src={img.src}
                     alt={img.alt}
                     loading="lazy"
                     className="w-full h-full object-cover transition-transform duration-800 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform group-hover:scale-[1.07]"
                   />
+                  <span className="absolute bottom-3 left-3 bg-[#173a2d]/85 backdrop-blur-sm border border-white/15 px-3 py-1 text-[10px] font-semibold tracking-[0.16em] uppercase text-white/90">
+                    {img.caption}
+                  </span>
                 </div>
               </ClipRevealFrame>
             </motion.div>
